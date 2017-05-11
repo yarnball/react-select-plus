@@ -481,7 +481,8 @@ const Select = React.createClass({
 		}
 		var onBlurredState = {
 			isFocused: false,
-			isOpen: false,
+			// DISABLED THIS- WARNING- CHANGE BACK FOR PRODUCTION. WILL STAY OPEN
+			isOpen: true,
 			isPseudoFocused: false,
 		};
 		if (this.props.onBlurResetsInput) {
