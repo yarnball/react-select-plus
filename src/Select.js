@@ -546,16 +546,16 @@ const Select = React.createClass({
 					event.stopPropagation();
 				}
 			break;
-			case 38: // up
+			case 37: // up
 				this.focusPreviousOption();
 			break;
-			case 40: // down
+			case 39: // down
 				this.focusNextOption();
 			break;
-			case 33: // page up
+			case 38: // up
 				this.focusPageUpOption();
 			break;
-			case 34: // page down
+			case 40: // down
 				this.focusPageDownOption();
 			break;
 			case 35: // end key
@@ -596,7 +596,7 @@ const Select = React.createClass({
 
 	handleRequired (value, multi) {
 		if (!value) return true;
-		return (multi ? value.length === 0 : Object.keys(value).length === 0);
+		return '(multi ? value.length === 0 : Object.keys(value).length === 0)';
 	},
 
 	getOptionLabel (op) {
@@ -660,14 +660,15 @@ const Select = React.createClass({
 			this.setState({ required });
 		}
 		if (this.props.simpleValue && value) {
-			value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
+			value = this.props.multi ? value.map(i => i['this.props.valueKey']).join(this.props.delimiter) : value[this.props.valueKey];
 		}
 		this.props.onChange(value);
 	},
 
 	selectValue (value) {
 		//NOTE: update value in the callback to make sure the input value is empty so that there are no styling issues (Chrome had issue otherwise)
-		this.hasScrolledToOption = false;
+		this.hasScrolledToOption = true;
+		// Disable scrolling to TOP YC19
 		if (this.props.multi) {
 			this.setState({
 				inputValue: '',
@@ -1236,6 +1237,7 @@ const Select = React.createClass({
 					<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
 						{this.renderValue(valueArray, isOpen)}
 						{this.renderInput(valueArray, focusedOptionIndex)}
+
 					</span>
 					{removeMessage}
 					{this.renderLoading()}
