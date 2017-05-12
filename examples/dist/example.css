@@ -265,6 +265,7 @@
 .Select-option-group-label ~ .Select-option {
   display:inline-flex;
 }
+
 .Select-option {
   box-sizing: border-box;
   background-color: #fff;
