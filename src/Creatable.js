@@ -30,6 +30,7 @@ const Creatable = React.createClass({
 	    // Factory to create new option.
 	    // ({ label: string, labelKey: string, valueKey: string }): Object
 		newOptionCreator: React.PropTypes.func,
+		newOptionCreator1: React.PropTypes.func,
 
 		// input change handler: function (inputValue) {}
 		onInputChange: React.PropTypes.func,
@@ -56,6 +57,7 @@ const Creatable = React.createClass({
 		isOptionUnique,
 		isValidNewOption,
 		newOptionCreator,
+		newOptionCreator1,
 		promptTextCreator,
 		shouldKeyDownEventCreateNewOption
 	},
@@ -67,6 +69,7 @@ const Creatable = React.createClass({
 			isValidNewOption,
 			menuRenderer: defaultMenuRenderer,
 			newOptionCreator,
+			newOptionCreator1,
 			promptTextCreator,
 			shouldKeyDownEventCreateNewOption,
 		};
@@ -76,6 +79,7 @@ const Creatable = React.createClass({
 		const {
 			isValidNewOption,
 			newOptionCreator,
+			newOptionCreator1,
 			onNewOptionClick,
 			options = [],
 			shouldKeyDownEventCreateNewOption
@@ -83,7 +87,8 @@ const Creatable = React.createClass({
 
 		if (isValidNewOption({ label: this.inputValue })) {
 			const option = newOptionCreator({ label: this.inputValue, labelKey: this.labelKey, valueKey: this.valueKey });
-			const isOptionUnique = this.isOptionUnique({ option });
+			const option1 = newOptionCreator1({ label: this.inputValue, labelKey: this.labelKey, valueKey: this.valueKey });
+			const isOptionUnique = this.isOptionUnique({ option, option1 });
 
 			// Don't add the same option twice.
 			if (isOptionUnique) {
@@ -109,14 +114,18 @@ const Creatable = React.createClass({
 		const filteredOptions = filterOptions(...params) || [];
 
 		if (isValidNewOption({ label: this.inputValue })) {
-			const { newOptionCreator } = this.props;
+			const { newOptionCreator, newOptionCreator1 } = this.props;
 
 			const option = newOptionCreator({
 				label: this.inputValue,
 				labelKey: this.labelKey,
 				valueKey: this.valueKey
 			});
-
+			const option1 = newOptionCreator1({
+				label: this.inputValue,
+				labelKey: this.labelKey,
+				valueKey: this.valueKey
+			});
 			// TRICKY Compare to all options (not just filtered options) in case option has already been selected).
 			// For multi-selects, this would remove it from the filtered list.
 			const isOptionUnique = this.isOptionUnique({
@@ -128,12 +137,25 @@ const Creatable = React.createClass({
 				const prompt = promptTextCreator(this.inputValue);
 
 				this._createPlaceholderOption = newOptionCreator({
-					label: prompt,
+					label: 'Type 1 "'+ prompt,
 					labelKey: this.labelKey,
 					valueKey: this.valueKey
 				});
 
 				filteredOptions.unshift(this._createPlaceholderOption);
+
+			}
+			if (isOptionUnique) {
+				const prompt = promptTextCreator(this.inputValue);
+
+				this._createPlaceholderOption1 = newOptionCreator1({
+					label: 'Type 2 "'+ prompt,
+					labelKey: this.labelKey,
+					valueKey: this.valueKey
+				});
+
+				filteredOptions.unshift(this._createPlaceholderOption1);
+				
 			}
 		}
 
@@ -210,6 +232,7 @@ const Creatable = React.createClass({
 	render () {
 		const {
 			newOptionCreator,
+			newOptionCreator1,
 			shouldKeyDownEventCreateNewOption,
 			...restProps
 		} = this.props;
@@ -269,11 +292,20 @@ function newOptionCreator ({ label, labelKey, valueKey }) {
 	option[valueKey] = label;
  	option[labelKey] = label;
  	option.className = 'Select-create-option-placeholder';
+ 	option.type = 1;
  	return option;
+};
+function newOptionCreator1 ({ label, labelKey, valueKey }) {
+	const option1 = {};
+	option1[valueKey] = label;
+ 	option1[labelKey] = label;
+ 	option1.className = 'Select-create-option-placeholder';
+ 	option1.type = 2;
+ 	return option1;
 };
 
 function promptTextCreator (label) {
-	return `Create type 1 "${label}`;
+	return `${label}`;
 }
 
 function shouldKeyDownEventCreateNewOption ({ keyCode }) {

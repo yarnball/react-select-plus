@@ -10,7 +10,7 @@ class GroupedOptionsField extends React.Component {
     // this.handleOnChange = this.handleOnChange.bind(this);
     // Do this, or will get a "not defined" error. Also
     this.state = {
-      multiValue: [{"label": "Geniu", "value": "Genius"}],
+      multiValue: [],
       options: [{
   label: 'Primary Colors',
   options: [{

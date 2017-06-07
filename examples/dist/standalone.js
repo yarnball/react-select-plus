@@ -386,6 +386,7 @@ var Creatable = _react2['default'].createClass({
 		// Factory to create new option.
 		// ({ label: string, labelKey: string, valueKey: string }): Object
 		newOptionCreator: _react2['default'].PropTypes.func,
+		newOptionCreator1: _react2['default'].PropTypes.func,
 
 		// input change handler: function (inputValue) {}
 		onInputChange: _react2['default'].PropTypes.func,
@@ -412,6 +413,7 @@ var Creatable = _react2['default'].createClass({
 		isOptionUnique: isOptionUnique,
 		isValidNewOption: isValidNewOption,
 		newOptionCreator: newOptionCreator,
+		newOptionCreator1: newOptionCreator1,
 		promptTextCreator: promptTextCreator,
 		shouldKeyDownEventCreateNewOption: shouldKeyDownEventCreateNewOption
 	},
@@ -423,6 +425,7 @@ var Creatable = _react2['default'].createClass({
 			isValidNewOption: isValidNewOption,
 			menuRenderer: _utilsDefaultMenuRenderer2['default'],
 			newOptionCreator: newOptionCreator,
+			newOptionCreator1: newOptionCreator1,
 			promptTextCreator: promptTextCreator,
 			shouldKeyDownEventCreateNewOption: shouldKeyDownEventCreateNewOption
 		};
@@ -432,6 +435,7 @@ var Creatable = _react2['default'].createClass({
 		var _props = this.props;
 		var isValidNewOption = _props.isValidNewOption;
 		var newOptionCreator = _props.newOptionCreator;
+		var newOptionCreator1 = _props.newOptionCreator1;
 		var onNewOptionClick = _props.onNewOptionClick;
 		var _props$options = _props.options;
 		var options = _props$options === undefined ? [] : _props$options;
@@ -439,7 +443,8 @@ var Creatable = _react2['default'].createClass({
 
 		if (isValidNewOption({ label: this.inputValue })) {
 			var option = newOptionCreator({ label: this.inputValue, labelKey: this.labelKey, valueKey: this.valueKey });
-			var _isOptionUnique = this.isOptionUnique({ option: option });
+			var option1 = newOptionCreator1({ label: this.inputValue, labelKey: this.labelKey, valueKey: this.valueKey });
+			var _isOptionUnique = this.isOptionUnique({ option: option, option1: option1 });
 
 			// Don't add the same option twice.
 			if (_isOptionUnique) {
@@ -469,14 +474,20 @@ var Creatable = _react2['default'].createClass({
 		var filteredOptions = filterOptions.apply(undefined, arguments) || [];
 
 		if (isValidNewOption({ label: this.inputValue })) {
-			var _newOptionCreator = this.props.newOptionCreator;
+			var _props3 = this.props;
+			var _newOptionCreator = _props3.newOptionCreator;
+			var _newOptionCreator1 = _props3.newOptionCreator1;
 
 			var option = _newOptionCreator({
 				label: this.inputValue,
 				labelKey: this.labelKey,
 				valueKey: this.valueKey
 			});
-
+			var option1 = _newOptionCreator1({
+				label: this.inputValue,
+				labelKey: this.labelKey,
+				valueKey: this.valueKey
+			});
 			// TRICKY Compare to all options (not just filtered options) in case option has already been selected).
 			// For multi-selects, this would remove it from the filtered list.
 			var _isOptionUnique2 = this.isOptionUnique({
@@ -488,12 +499,23 @@ var Creatable = _react2['default'].createClass({
 				var _prompt = promptTextCreator(this.inputValue);
 
 				this._createPlaceholderOption = _newOptionCreator({
-					label: _prompt,
+					label: 'Type 1 "' + _prompt,
 					labelKey: this.labelKey,
 					valueKey: this.valueKey
 				});
 
 				filteredOptions.unshift(this._createPlaceholderOption);
+			}
+			if (_isOptionUnique2) {
+				var _prompt2 = promptTextCreator(this.inputValue);
+
+				this._createPlaceholderOption1 = _newOptionCreator1({
+					label: 'Type 2 "' + _prompt2,
+					labelKey: this.labelKey,
+					valueKey: this.valueKey
+				});
+
+				filteredOptions.unshift(this._createPlaceholderOption1);
 			}
 		}
 
@@ -536,9 +558,9 @@ var Creatable = _react2['default'].createClass({
 	},
 
 	onInputKeyDown: function onInputKeyDown(event) {
-		var _props3 = this.props;
-		var shouldKeyDownEventCreateNewOption = _props3.shouldKeyDownEventCreateNewOption;
-		var onInputKeyDown = _props3.onInputKeyDown;
+		var _props4 = this.props;
+		var shouldKeyDownEventCreateNewOption = _props4.shouldKeyDownEventCreateNewOption;
+		var onInputKeyDown = _props4.onInputKeyDown;
 
 		var focusedOption = this.select.getFocusedOption();
 
@@ -567,11 +589,12 @@ var Creatable = _react2['default'].createClass({
 	render: function render() {
 		var _this = this;
 
-		var _props4 = this.props;
-		var newOptionCreator = _props4.newOptionCreator;
-		var shouldKeyDownEventCreateNewOption = _props4.shouldKeyDownEventCreateNewOption;
+		var _props5 = this.props;
+		var newOptionCreator = _props5.newOptionCreator;
+		var newOptionCreator1 = _props5.newOptionCreator1;
+		var shouldKeyDownEventCreateNewOption = _props5.shouldKeyDownEventCreateNewOption;
 
-		var restProps = _objectWithoutProperties(_props4, ['newOptionCreator', 'shouldKeyDownEventCreateNewOption']);
+		var restProps = _objectWithoutProperties(_props5, ['newOptionCreator', 'newOptionCreator1', 'shouldKeyDownEventCreateNewOption']);
 
 		var children = this.props.children;
 
@@ -633,15 +656,28 @@ function newOptionCreator(_ref5) {
 	option[valueKey] = label;
 	option[labelKey] = label;
 	option.className = 'Select-create-option-placeholder';
+	option.type = 1;
 	return option;
+};
+function newOptionCreator1(_ref6) {
+	var label = _ref6.label;
+	var labelKey = _ref6.labelKey;
+	var valueKey = _ref6.valueKey;
+
+	var option1 = {};
+	option1[valueKey] = label;
+	option1[labelKey] = label;
+	option1.className = 'Select-create-option-placeholder';
+	option1.type = 2;
+	return option1;
 };
 
 function promptTextCreator(label) {
-	return 'Create type 1 "' + label;
+	return '' + label;
 }
 
-function shouldKeyDownEventCreateNewOption(_ref6) {
-	var keyCode = _ref6.keyCode;
+function shouldKeyDownEventCreateNewOption(_ref7) {
+	var keyCode = _ref7.keyCode;
 
 	switch (keyCode) {
 		case 9: // TAB
