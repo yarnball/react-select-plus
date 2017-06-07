@@ -43,7 +43,7 @@ class GroupedOptionsField extends React.Component {
   render () {
     const { multi, multiValue, options } = this.state;
     return (
-        <Select.TreeCreatable
+        <Select.Creatable
           multi={true}
           showNewOptionAtTop={true}
           options={options}
