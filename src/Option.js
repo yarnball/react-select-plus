@@ -4,6 +4,7 @@ import classNames from 'classnames';
 const Option = React.createClass({
 	propTypes: {
 		children: React.PropTypes.node,
+		label: React.PropTypes.any, 
 		className: React.PropTypes.string,             // className (based on mouse position)
 		instancePrefix: React.PropTypes.string.isRequired,  // unique prefix for the ids (used for aria)
 		isDisabled: React.PropTypes.bool,              // the option is disabled
@@ -87,7 +88,7 @@ const Option = React.createClass({
 				onTouchEnd={this.handleTouchEnd}
 				id={instancePrefix + '-option-' + optionIndex}
 				title={option.title}>
-				{this.props.children}
+				{this.props.children}{this.props.label}
 			</div>
 		);
 	}

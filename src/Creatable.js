@@ -273,7 +273,7 @@ function newOptionCreator ({ label, labelKey, valueKey }) {
 };
 
 function promptTextCreator (label) {
-	return `Create option "${label}"`;
+	return `Create type 1 "${label}`;
 }
 
 function shouldKeyDownEventCreateNewOption ({ keyCode }) {

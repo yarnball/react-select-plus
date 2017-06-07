@@ -637,7 +637,7 @@ function newOptionCreator(_ref5) {
 };
 
 function promptTextCreator(label) {
-	return 'Create option "' + label + '"';
+	return 'Create option! "' + label + '"';
 }
 
 function shouldKeyDownEventCreateNewOption(_ref6) {

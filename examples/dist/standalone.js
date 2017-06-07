@@ -637,7 +637,7 @@ function newOptionCreator(_ref5) {
 };
 
 function promptTextCreator(label) {
-	return 'Create option "' + label + '"';
+	return 'Create type 1 "' + label;
 }
 
 function shouldKeyDownEventCreateNewOption(_ref6) {
@@ -701,6 +701,7 @@ var Option = _react2['default'].createClass({
 
 	propTypes: {
 		children: _react2['default'].PropTypes.node,
+		label: _react2['default'].PropTypes.any,
 		className: _react2['default'].PropTypes.string, // className (based on mouse position)
 		instancePrefix: _react2['default'].PropTypes.string.isRequired, // unique prefix for the ids (used for aria)
 		isDisabled: _react2['default'].PropTypes.bool, // the option is disabled
@@ -789,7 +790,8 @@ var Option = _react2['default'].createClass({
 				onTouchEnd: this.handleTouchEnd,
 				id: instancePrefix + '-option-' + optionIndex,
 				title: option.title },
-			this.props.children
+			this.props.children,
+			this.props.label
 		);
 	}
 });
